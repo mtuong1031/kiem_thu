@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LoginService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Kiem Thu Tuan 3</a> &gt; <a href="index.source.html" class="el_package">default</a> &gt; <span class="el_source">LoginService.java</span></div><h1>LoginService.java</h1><pre class="source lang-java linenums"><span class="fc" id="L1">public class LoginService {</span>
+<span class="fc" id="L2">    private int failedAttempts = 0;</span>
+<span class="fc" id="L3">    private long lockUntil = 0;</span>
+
+<span class="fc" id="L5">    private final String VALID_USERNAME = &quot;user123&quot;;</span>
+<span class="fc" id="L6">    private final String VALID_PASSWORD = &quot;Password@123&quot;;</span>
+
+    public String login(String username, String password) {
+<span class="fc" id="L9">        long now = System.currentTimeMillis();</span>
+
+<span class="fc bfc" id="L11" title="All 2 branches covered.">        if (now &lt; lockUntil) {</span>
+<span class="fc" id="L12">            return &quot;Tai khoan dang bi khoa. Vui long thu lai sau.&quot;;</span>
+        }
+
+<span class="fc bfc" id="L15" title="All 6 branches covered.">        if (username == null || username.length() &lt; 5 || username.length() &gt; 15) {</span>
+<span class="fc" id="L16">            return &quot;Sai thong tin dang nhap&quot;;</span>
+        }
+
+<span class="fc bfc" id="L19" title="All 2 branches covered.">        if (!isValidPassword(password)) {</span>
+<span class="fc" id="L20">            return &quot;Sai thong tin dang nhap&quot;;</span>
+        }
+
+<span class="fc bfc" id="L23" title="All 4 branches covered.">        if (username.equals(VALID_USERNAME) &amp;&amp; password.equals(VALID_PASSWORD)) {</span>
+<span class="fc" id="L24">            failedAttempts = 0;</span>
+<span class="fc" id="L25">            return &quot;Dang nhap thanh cong&quot;;</span>
+        } else {
+<span class="fc" id="L27">            failedAttempts++;</span>
+<span class="fc bfc" id="L28" title="All 2 branches covered.">            if (failedAttempts &gt;= 3) {</span>
+<span class="fc" id="L29">                lockUntil = now + 5 * 60 * 1000;</span>
+<span class="fc" id="L30">                failedAttempts = 0;</span>
+<span class="fc" id="L31">                return &quot;Sai thong tin dang nhap. Tai khoan bi khoa 5 phut.&quot;;</span>
+            }
+<span class="fc" id="L33">            return &quot;Sai thong tin dang nhap&quot;;</span>
+        }
+    }
+
+    private boolean isValidPassword(String password) {
+<span class="fc bfc" id="L38" title="All 6 branches covered.">        if (password == null || password.length() &lt; 8 || password.length() &gt; 20) {</span>
+<span class="fc" id="L39">            return false;</span>
+        }
+<span class="fc" id="L41">        boolean hasUpper = false, hasDigit = false, hasSpecial = false;</span>
+<span class="fc bfc" id="L42" title="All 2 branches covered.">        for (char c : password.toCharArray()) {</span>
+<span class="fc bfc" id="L43" title="All 2 branches covered.">            if (Character.isUpperCase(c)) hasUpper = true;</span>
+<span class="fc bfc" id="L44" title="All 2 branches covered.">            else if (Character.isDigit(c)) hasDigit = true;</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">            else if (!Character.isLetterOrDigit(c)) hasSpecial = true;</span>
+        }
+<span class="fc bfc" id="L47" title="All 6 branches covered.">        return hasUpper &amp;&amp; hasDigit &amp;&amp; hasSpecial;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>
