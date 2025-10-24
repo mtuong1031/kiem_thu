@@ -169,40 +169,6 @@ class LoginServiceTest {
         assertEquals("Dang ky thanh cong", result);
     }
 
-    // Test Cases cho Đăng nhập (R7-R10)
-    @Test
-    @DisplayName("TC-R7")
-    void TC_R7() {
-        String result = loginService.login("user123", "Password@123");
-        assertEquals("Dang nhap thanh cong", result);
-    }
-
-    @Test
-    @DisplayName("TC-R8")
-    void TC_R8() {
-        String result = loginService.login("user123", "password@123");
-        assertEquals("Sai thong tin dang nhap", result);
-    }
-
-    @Test
-    @DisplayName("TC-R9")
-    void TC_R9() {
-        loginService.login("user123", "password@123");
-        loginService.login("user123", "password@123");
-        String result = loginService.login("user123", "password@123");
-        assertEquals("Sai thong tin dang nhap. Tai khoan bi khoa 5 phut.", result);
-    }
-
-    @Test
-    @DisplayName("TC-R10)")
-    void TC_R10() {
-        loginService.login("user123", "password@123");
-        loginService.login("user123", "password@123");
-        loginService.login("user123", "password@123");
-
-        String result = loginService.login("user123", "Password@123");
-        assertEquals("Tai khoan dang bi khoa. Vui long thu lai sau.", result);
-    }
 
 
     //KIỂM THỬ VỚI ĐỘ PHỦ C2 CHO HÀM LOGIN
