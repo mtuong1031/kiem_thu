@@ -256,4 +256,40 @@ class LoginServiceTest {
         String result = loginService.Register("abcxyz", "Abc1234!");
         assertEquals("Dang ky thanh cong", result);
     }
+
+    // Test với độ phủ All-uses
+    @Test
+    @DisplayName("AU-1")
+    void AU1() {
+        String result = loginService.Register("", "Password@123");
+        assertEquals("Gia tri Username khong hop le", result);
+    }
+
+    @Test
+    @DisplayName("AU-2")
+    void AU2() {
+        String result = loginService.Register("abcd", "Password@123");
+        assertEquals("Gia tri Username khong hop le", result);
+    }
+
+    @Test
+    @DisplayName("AU-3")
+    void AU3() {
+        String result = loginService.Register("abcdefghijklmnovbfđfdfsfdsfdsdf", "Password@123");
+        assertEquals("Gia tri Username khong hop le", result);
+    }
+
+    @Test
+    @DisplayName("AU-4")
+    void AU4() {
+        String result = loginService.Register("validUser", "Pass@1");
+        assertEquals("Password khong du do dai", result);
+    }
+
+    @Test
+    @DisplayName("AU-5")
+    void AU5() {
+        String result = loginService.Register("validUser", "Password@123");
+        assertEquals("Dang ky thanh cong", result);
+    }
 }
